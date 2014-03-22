@@ -68,4 +68,23 @@ class user_files_form extends moodleform {
 
         return $errors;
     }
+
+    function add_action_buttons($cancel = true, $submitlabel=null){
+        if (is_null($submitlabel)){
+            $submitlabel = get_string('savechanges');
+        }
+        $mform =& $this->_form;
+        if ($cancel){
+            //when two elements we need a group
+            $buttonarray=array();
+            $buttonarray[] = &$mform->createElement('submit', 'submitbutton', $submitlabel);
+            $buttonarray[] = $mform->createElement('cancel', 'cancel', "undo changes");
+            $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+            $mform->closeHeaderBefore('buttonar');
+        } else {
+            //no group needed
+            $mform->addElement('submit', 'submitbutton', $submitlabel);
+            $mform->closeHeaderBefore('submitbutton');
+        }
+    }
 }
